@@ -1,0 +1,280 @@
+\documentclass[12pt,a4paper,english,twoside]{article}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows}
+
+\usepackage{multirow}
+\usepackage{amsmath, amssymb, setspace} %Cosas de mates y fijar espaciado entre líneas
+\usepackage{babel} %Elige el idioma de las palabras que se generan automáticamente (como tabla o Figura)
+\usepackage[utf8]{inputenc} %Permite introducir directamente acentos: á en lugar de \'a etc.
+\usepackage{graphicx} %Cosas chachis para Figuras
+\usepackage{caption} %Cosas chachis en los nombres de las figuras
+%\usepackage{subcaption} %Ídem que Caption pero con subfiguras
+\usepackage{subfig}
+\usepackage{float} %Permite manejar/mover/partir mejor figuras y tablas
+\usepackage{fancyhdr} %Encabezado y pie de página chachi
+%\usepackage[usenames,dvipsnames]{xcolor} %Colrines!!
+%\usepackage{mathabx} %Más símbolos matemáticos
+\usepackage{mathtools} %Más símbolos matemáticos
+\usepackage[toc,page]{appendix} %Incluir apéndices
+\usepackage{rotating} %Para girar floating objects (texto en mbox, tablas, figuras...)
+\usepackage{multicol} %Para dividir la página en columnas
+\usepackage{verbatim} % comentarios
+\usepackage{braket} %Permite usar bra-kets para la notación de Dirac
+\usepackage{pdfpages} %Para añadir páginas de pdf externos
+\usepackage{cancel} %Para tachar elementos en las fórmulas
+\usepackage[nottoc]{tocbibind} %Pone LOF, LOT, Apendices en la TOC
+\usepackage{titlesec} %Edit title format
+\usepackage{slashed} %Dirac slash notation:  \slashed{p}
+\usepackage{pgffor}							% For repeating patterns
+\usepackage{booktabs}
+
+\captionsetup[table]{aboveskip=3pt}
+
+\usepackage[pdftex, colorlinks=true,linkcolor=blue, urlcolor=blue, linktocpage]{hyperref}
+%Pone enlaces en las ecuaciones/figuras que citas.
+
+\oddsidemargin -1em
+\evensidemargin 1em
+\textwidth 6.3in
+\topmargin -0.25in
+\textheight 9in
+\parindent 3em
+\parskip 1ex
+\headsep 1cm
+\renewcommand{\baselinestretch}{1.25} %para definir el interlineado
+
+%\spanishdecimal{.}
+\columnsep=2.5em
+
+\def\d{\mathrm{d}}  %para definir el operador diferencial como \d
+\newcommand{\grad}{ \overrightarrow{\nabla} } %definicion de nabla vector
+
+
+\setlength{\intextsep}{12pt plus 2.0pt minus 9.0pt}
+
+
+\titleformat
+{\chapter} % command
+[display] % shape
+{\bfseries\Large} % format
+{  } % label
+{-1cm} % sep
+{ \thechapter.  } % before-code
+[ \vspace{0.5ex} ] % after-code
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+\renewcommand{\tablename}{\bf Table} %Cambia la palabra "Cuadro" por "Tabla"
+\renewcommand{\figurename}{\bf Figure}
+%\renewcommand\thetable{\thesection.\arabic{table}} % Genera numeración X.Y
+\renewcommand{\listtablename}{List of Tables} %Cambia el título "Índice de cuadros" por "Índice de Tablas
+%\renewcommand\thefigure{\thesection.\arabic{figure}} % Genera numeración X.Y
+\renewcommand*\contentsname{Table of Contents} %Cambia el título "Índice General" por "Índice"
+\renewcommand \listfigurename{List of Figures} %Cambia el título "Índice de figuras" por "Índice de Figuras"
+%\renewcommand\theequation{\thesection.\arabic{equation}} % Genera numeración X.Y
+\renewcommand{\appendixname}{Appendixes}
+\renewcommand{\appendixtocname}{Appendixes}
+\renewcommand{\appendixpagename}{Appendixes}
+%\numberwithin{figure}{section}	%Estos comandos generan numeración Sección.Numero de Figura/tabla/ecuación
+%\numberwithin{table}{section}
+\numberwithin{equation}{section}
+\renewcommand{\bibname}{References}
+
+
+\def\nicefrac#1#2{\leavevmode%
+    \raise.5ex\hbox{\small #1}%
+    \kern-.1em/\kern-.15em%
+    \lower.25ex\hbox{\small #2}}
+
+
+%Estilo especial para pág. de principio de sección
+\fancypagestyle{newstyle}{
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[OR, EL]{\thepage} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+
+% Encabezado y pie de página
+\pagestyle{fancy}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\headrulewidth}{0pt}  %Grosor de la línea bajo el encabezado
+\fancyhf{} %limpiar los campos
+% página ... R=derecha, L=izquierda, C=centro; O=impar, E=par
+% El número de la página es \thepage
+%\fancyhead[RO]{\sectionmark}
+%\fancyheadoffset{1cm}
+\fancyfoot[LE]{\thepage}
+\fancyfoot[RO]{\thepage}
+%\fancyhead[CE]{\nouppercase{\thechaptr. \leftmark}}
+\fancyhead[LO]{Section \thesection. \leftmark}
+\fancyhead[RE]{J.M. Benlloch-Rodríguez}
+
+
+\includepdf[pages={1}]{portada.pdf}
+
+\newpage\null\thispagestyle{empty}\newpage
+
+\newpage
+\thispagestyle{newstyle}
+
+\section*{Abstract}
+This master thesis presents a new type of Positron Emission TOF Apparatus using Liquid xenOn (PETALO). The detector is based in the  Liquid Xenon Scintillating Cell (LXSC).  The cell is a box filled with liquid xenon (LXe) whose transverse dimensions are chosen to optimize packing and with a thickness optimized to contain a large fraction of the incoming photons. The entry and exit faces of the box (relative to the incoming gammas direction) are instrumented with large silicon photomultipliers (SiPMs), coated with a wavelength shifter, tetraphenyl butadiene (TPB). The non-instrumented faces are covered by reflecting Teflon coated with TPB. In this thesis we show that the LXSC can display an energy resolution of 5\% FWHM, much better than that of conventional solid scintillators such as LSO/LYSO. The LXSC can measure the interaction point of the incoming photon with a resolution in the three coordinates of 1 mm. The very fast scintillation time of LXe (2 ns) and the availability of suitable sensors and electronics permits a coincidence resolution time (CRT) in the range of 100-200 ps, again much better than any current PET-TOF system. The LXSC constitutes the core of a high-sensitivity, nuclear magnetic resonance compatible, PET device, with enhanced Time Of Flight (TOF) sensitivity.
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+\newpage
+\thispagestyle{newstyle}
+\tableofcontents
+
+\newpage
+\thispagestyle{newstyle}
+
+
+\section{Introduction}
+\label{sec.intro}
+
+Positron Emission Tomography (PET) is a non invasive imaging technique that produces a three-dimensional image of functional processes in the body. The system detects pairs of gamma rays emitted indirectly by a positron-emitting radionuclide (tracer), which is introduced into the body on a biologically active molecule. 
+
+PET technology has evolved rapidly during the last decade, thanks to the introduction of high-yield, high-resolution, and fast-response solid scintillator detectors, such as LSO/LYSO. At the same time, a new type of sensors, the so-called silicon-photomultipliers or SiPMs, are quickly replacing conventional PMTs as readout devices. SiPMs have large gains, comparable to that of PMTs, excellent photon detection efficiency (PDE), close to 50\% around 420 nm can be fabricated in a variety of small size dices, allowing the construction of very modular pixelated systems. Furthermore, the use of SiPMs makes PET compatible with technologies that require very intense magnetic fields, such as Magnetic Resonance Imaging (MRI). 
+
+However, a limitation of this excellent technology is the high cost of the scanner. The driving factor is the high cost of crystals such as LSO or LYSO, but the large number of channels needed for good energy and spatial resolution are also relevant. 
+
+This master thesis presents a new type of Positron Emission TOF Apparatus using Liquid xenOn (PETALO). The use of liquid xenon (LXe) improves the energy resolution (ER) and the coincidence resolution time (CRT) which can be achieved by conventional PET systems based in LSO/LYSO. At the same time, LXe is much cheaper than LSO/LYSO and the high yield and homogeneity of the liquid allows a sparser instrumentation. As a consequence, PETALO may show better performance at lower cost than conventional PET scanners, thus offering a potential break-through of the technology.  
+
+PETALO is based in the  Liquid Xenon Scintillating Cell (LXSC).  The cell is a box filled with liquid xenon (LXe) whose transverse dimensions are chosen to optimize packing and with a thickness optimized to contain a large fraction of the incoming photons. The entry and exit faces of the box (relative to the incoming gammas direction) are instrumented with large silicon photomultipliers (SiPMs), coated with a wavelength shifter, tetraphenyl butadiene (TPB). The non-instrumented faces are covered by reflecting Teflon coated with TPB. 
+
+In this thesis we show that the LXSC can display an energy resolution better than 5\% FWHM, much better than that of conventional solid scintillators such as LSO/LYSO. The LXSC can measure the interaction point of the incoming photon with a resolution in the three coordinates of 1--2 mm. The very fast scintillation time of LXe  and the availability of suitable sensors and electronics permits a CRT in the range of 100-200 ps, again much better than any current PET-TOF system. 
+
+This document is organized as follows. In section \ref{sec.pet} we introduce the basic ideas of Positron Emission Tomography. In section \ref{sec.ppet}, we discuss the performance characteristics of PET scanners. Section \ref{sec.ssd} compares the conventional solid scintillating detectors used in conventional PET scanners with LXe. The PETALO concept is introduced in section \ref{sec.petalo}. Section \ref{sec.sipm} describes the concept and main performance parameters of silicon photomultipliers. The LXSC is discussed in section \ref{sec.lxsc} and the study of the LXSC properties is discussed in section \ref{sec.mc}. 
+%In section \ref{sec.comp} we briefly comment on how to resolve photoelectric and Compton interactions. 
+We sketch possible PETALO scanners in section \ref{sec.pets}. Finally in section \ref{sec.conclu} we present our conclusions. 
+
+\input{src2/PET.tex}
+\input{src2/petPerformance.tex}
+\input{src2/lxe.tex}
+\input{src2/petalo.tex}
+\input{src2/sipm.tex}
+\input{src2/lxsc.tex}
+\input{src2/Performance.tex}
+%\input{src/Compton.tex}
+\input{src/petaloScanners.tex}
+
+%
+%\newpage
+%\thispagestyle{newstyle}
+
+%\newpage\null\thispagestyle{empty}\newpage
+%\thispagestyle{newstyle}
+%\newpage
+%\thispagestyle{newstyle}
+\section{Conclusions}
+\label{sec.conclu}
+
+PETALO is a new technology for TOF-PET systems based on the LXSC, a fully hermetic, homogenous box filled with liquid xenon and equipped with SiPM coated with TPB. PETALO offers the following advantages:
+
+\begin{enumerate}
+\item Light yield higher than any conventional SSD.
+\item Excellent intrinsic energy resolution (3.5 -- 4.5 \% FWHM depending on configuration of LXSC and of light yield). 
+\item Excellent spatial resolution (1-2 mm in the three coordinates).
+\item Potentially capable of detecting multi-site Compton events. Thus suitable as Compton telescope.
+\item Very fast time response, resulting in enhanced sensitivity (reduced number of random coincidences) and making it possible breakthrough TOF application. 
+\item Fully MRI compatible. 
+\item Competitive cost. The sparse version of the LXSC2 would cost today roughly 2-3 times less than the cost of the equivalent LSO unit. With the cost of SiPMs falling, the  cost of PET scanners will soon be fully dominated by the material of choice. Xenon is much cheaper than LSO and thus a large-scale apparatus (full body PET) is conceivable. 
+\end{enumerate}
+
+With respect to the pioneer work of the Waseda group, PETALO introduces the concept of the fully reflective, hermetic and homogenous LXSC, capable to detect the VUV light emitted by xenon with high efficiency and very small geometrical effects, thanks to the use of SiPMs. 
+
+%The problem of identifying Compton events and reconstructing more than one vertex remains open. Solving it would give us all the potential of the LXSC and would also be a big improvement in PET technologies.
+
+\newpage\null\thispagestyle{empty}\newpage
+\newpage
+\begin{thebibliography}{99}
+\thispagestyle{newstyle}
+
+%1
+\bibitem{chepel02}
+%http://www.worldscientific.com/doi/abs/10.1142/9789812705075_0003
+V. Chepel, M.I. Lopes, V. Solovov, R. Ferreira Marques and A.J.P.L. Policarpo, {\em Development of liquid xenon detectors for medical imaging}, in Proceedings on The International Workshop on Technique and Application of Xenon Detectors (Xenon 01), University of Tokyo, December 2001. \href{http://doi.org/10.1142/9789812705075\_0003}{doi:10.1142/9789812705075\_0003}.
+
+%2
+\bibitem{chepel94}
+%http://www.sciencedirect.com/science/article/pii/0168900294912173
+V.Y. Chepel, M.I. Lopes, R. Ferreira Marques and A.J.P.L. Policarpo, {\em Purification of liquid xenon and impurity monitoring for a PET detector}, Nucl. Instrum. Methods A 349, 500 (1994) \href{http://doi.org/10.1016/0168-9002(94)91217-3}{doi:10.1016/0168-9002(94)91217-3}.
+
+\bibitem{chepel95}
+%http://www.sciencedirect.com/science/article/pii/0168900295005285
+V.Y. Chepel, , M.I. Lopes, H.M. Araújo, M.A. Alves, R. Ferreira Marques and A.J.P.L Policarpo, {\em Liquid xenon multiwire chamber for positron tomography}, Nucl. Instrum. Methods A 367, 58 (1995). \href{http://doi.org/10.1016/0168-9002(95)00528-5}{doi:10.1016/0168-9002(95)00528-5}.
+
+\bibitem{lopes95}
+M.I. Lopes, V.Y. Chepel, J.C. Carvalho, R. Ferreira Marques and A.J.P.L. Policarpo, {\em Performance analysis based on a Monte Carlo simulation of a liquid xenon PET detector}, IEEE Trans. NS-42, 2298 (1995). \href{http://dx.doi.org/10.1109/23.489431}{doi:10.1109/23.489431}
+
+\bibitem{chepel97}
+%http://www.sciencedirect.com/science/article/pii/S0168900297001964
+V.Y. Chepel, M.I Lopes, A Kuchenkov, R Ferreira Marques and A.J.P.L Policarpo, {\em Performance study of liquid xenon detector for PET}, Nucl. Instrum. Methods A 392, 427 (1997). \href{http://doi.org/10.1016/S0168-9002(97)00196-4}{doi:10.1016/S0168-9002(97)00196-4}.
+
+\bibitem{crespo98}
+P. Crespo, V.Y. Chepel, M.I. Lopes, L. Janeiro, R.F. Marques and A.J.P.L. Policarpo, {\em Pulse shape analysis in the liquid xenon multiwire ionisation chamber for PET}, IEEE Trans. NS-45, 561 (1998). \href{http://doi.org/10.1109/23.682448 }{doi:10.1109/23.682448}.
+
+\bibitem{chepel99}
+V.Y. Chepel, V. Solovov, J. Van Der Marel, M.I. Lopes, P. Crespo, L. Janeiro; D. Santos, R.F. Marques and A.J.P.L. Policarpo, {\em The liquid xenon detector for PET: recent results}, IEEE Trans NS-46, 1038 (1999). \href{http://dx.doi.org/10.1109/23.790822}{doi:10.1109/23.790822}.
+
+\bibitem{crespo00}
+P. Crespo, J. van der Marel, V.Y. Chepel, M.I. Lopes, D. Santos, L. Janeiro, V. Solovov, R.F. Marques and A.J.P.L. Policarpo, {\em Pulse processing for the PET liquid xenon multiwire ionisation chamber}, IEEE Trans, NS-47, 2119 (2000). \href{http://doi.org/10.1109/23.903858}{doi:10.1109/23.903858}.
+
+%\bibitem{thers}
+%D. Thers, {\em A Positron Emission Tomography (PET) based on a liquid Xenon Time Projection Chamber and Microstructure Devices for Compton tracking}, in Workshop on LXe-PET Camera, Subatech, Nantes, France, October 2003; 
+
+%3
+\bibitem{lavoie76}
+%https://inis.iaea.org/search/search.aspx?orig_q=RN:8290940
+Lavoie L., {\em Liquid xenon scintillators for imaging of positron emitters}, Medical Physics 3, No. 5, 283 (1976).
+
+%4
+\bibitem{doke06}
+%http://www.sciencedirect.com/science/article/pii/S016890020601401X
+Doke T., J. Kikuchi, and F. Nishikido, {\em Time-of-flight positron emission tomography using liquid xenon scintillation}, Nucl. Instrum. Methods A 569, 863 (2006). \href{http://doi.org/10.1016/j.nima.2006.07.067}{doi:10.1016/j.nima.2006.07.067}
+
+\bibitem{nishikido05}
+%http://iopscience.iop.org/article/10.1143/JJAP.44.5193/meta
+F. Nishikido, T. Doke, J. Kikuchi, T. Mori, H. Murayama, T. Ooshita and H. Takahashi, {\em Performance of Prototype Liquid Xenon Scintillation Detector System for Time-of-Flight Type Positron Emission Tomography with Improved Photomultipliers}, Jpn J. Appl. Phys. 44, 5193 (2005). \href{http://dx.doi.org/10.1143/JJAP.44.5193}{doi:10.1143/JJAP.44.5193}
+
+\bibitem{nishikido04}
+%http://iopscience.iop.org/article/10.1143/JJAP.43.779/meta
+F. Nishikido, T. Doke, J. Kikuchi, T. Mori, K. Takizawa and M. Yamamoto, {\em Performance of a Prototype of Liquid Xenon Scintillation Detector System for Positron Emission Tomography}, Jpn J. Appl. Phys. 43, 779 (2004). \href{http://dx.doi.org/10.1143/JJAP.43.779}{doi:10.1143/JJAP.43.779}
+
+%5
+\bibitem{next}
+\url{http://next.ific.uv.es/next/} (Retrieved on 4 September 2015).
+
+%6
+\bibitem{next13}
+%http://iopscience.iop.org/article/10.1088/1748-0221/8/09/P09011/meta
+NEXT Collaboration, {\em Operation and first results of the NEXT-DEMO prototype using a silicon photomultiplier tracking array}, JINST 8 P09011 (2013). \href{http://dx.doi.org/10.1088/1748-0221/8/09/P09011}{doi:10.1088/1748-0221/8/09/P09011}.
+
+\bibitem{next12}
+%http://arxiv.org/abs/1206.6199
+NEXT-100 Collaboration, {\em Design and characterization of the SiPM tracking system of the NEXT-100 demonstrator}, e-Print: \href{http://arxiv.org/abs/1206.6199}{arXiv:1206.6199} (2012). 
+
+%7
+\bibitem{jj14}
+%http://arxiv.org/abs/1411.2433
+J.J. Gomez-Cadenas, {\em The NEXT experiment}, e-Print: \href{http://arxiv.org/abs/1411.2433}{arXiv:1411.2433} (2014).
+
+%8
+\bibitem{aprile10}
+%http://journals.aps.org/rmp/abstract/10.1103/RevModPhys.82.2053
+E. Aprile and T. Doke, {\em Liquid Xenon Detectors for Particle Physics and Astrophysics}, Rev. Mod. Phys. 82 2053–2097 (2010). \href{http://doi.org/10.1103/RevModPhys.82.2053}{doi:10.1103/RevModPhys.82.2053}
+
+%9
+\bibitem{doke02}
+%http://iopscience.iop.org/article/10.1143/JJAP.41.1538/meta
+T. Doke, A. Hitachi, J. Kikuchi, K. Masuda, H. Okada and E. Shibamura. {\em Absolute Scintillation Yields in Liquid Argon and Xenon for Various Particles} Jpn. J. Appl. Phys. 41 1538 (2002). \href{http://dx.doi.org/10.1143/JJAP.41.1538}{doi:10.1143/JJAP.41.1538}
+
+\end{thebibliography}
+
+\end{document}
